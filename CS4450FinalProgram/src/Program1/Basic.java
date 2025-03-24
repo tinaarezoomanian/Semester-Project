@@ -1,6 +1,6 @@
 /***************************************************************
 * file: Basic.java
-* author: ???
+* author: Kenneth Chau, Tina Arezoomanians, Kelly Lwin
 * class: CS 4450.01 (S25-Regular) Computer Graphics
 *
 * assignment: Final Program Checkpoint 1
@@ -61,14 +61,8 @@ public class Basic {
     // method: render
     // purpose: Main rendering loop, handles user input and draws graphics.
     private void render() {
-        while (!Display.isCloseRequested()) {
+        while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             try {
-                // Quit the program if escape key is pressed
-                if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-                    System.out.println("Exiting Program...");
-                    break;
-                }
-
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity();
                 glColor3f(1.0f, 1.0f, 0.0f);
