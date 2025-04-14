@@ -16,56 +16,48 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 public class PlayerMovement {
-    
-    // method: getMovementDelta
-    // purpose: Calculates player position based on keyboard input.
+
+    // Calculate movement delta based on keyboard input.
     public static Vector3f getMovementDelta(float movementSpeed, float cameraYaw) {
-        // convert yaw to radians
+        // Convert yaw angle to radians.
         float yawRad = (float) Math.toRadians(cameraYaw);
 
-        // calculate forward and right vectors
+        // Calculate forward and right directional components.
         float forwardX = (float) Math.sin(yawRad);
         float forwardZ = (float) -Math.cos(yawRad);
-        float rightX = (float) Math.cos(yawRad);
-        float rightZ = (float) Math.sin(yawRad);
+        float rightX   = (float) Math.cos(yawRad);
+        float rightZ   = (float) Math.sin(yawRad);
 
-        // initialize movement delta
         Vector3f delta = new Vector3f(0, 0, 0);
 
-        // move forward (W or up arrow)
+        // Forward movement (W or UP)
         if (Keyboard.isKeyDown(Keyboard.KEY_W) || Keyboard.isKeyDown(Keyboard.KEY_UP)) {
             delta.x += forwardX * movementSpeed;
             delta.z += forwardZ * movementSpeed;
         }
-
-        // move backward (S or down arrow)
+        // Backward movement (S or DOWN)
         if (Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
             delta.x -= forwardX * movementSpeed;
             delta.z -= forwardZ * movementSpeed;
         }
-
-        // slide left (A or left arrow)
+        // Left (A or LEFT)
         if (Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
             delta.x -= rightX * movementSpeed;
             delta.z -= rightZ * movementSpeed;
         }
-
-        // slide right (D or right arrow)
+        // Right (D or RIGHT)
         if (Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
             delta.x += rightX * movementSpeed;
             delta.z += rightZ * movementSpeed;
         }
-
-        // move upward (space bar)
+        // Upward (SPACE)
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
             delta.y += movementSpeed;
         }
-
-        // move downward (left shift)
+        // Downward (LEFT SHIFT)
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
             delta.y -= movementSpeed;
         }
-
         return delta;
-    } 
+    }
 }

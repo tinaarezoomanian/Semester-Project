@@ -12,21 +12,18 @@
 
 package Program1;
 
-import org.lwjgl.input.Mouse; 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
-    // instance variables
-    // camera position and orientation 
-    public float x, y, z; 
+    // Camera position and orientation
+    public float x, y, z;
     public float yaw, pitch;
     
-    // sensitivity and movement speed
+    // Sensitivity and movement speed
     public float mouseSensitivity = 0.1f;
     public float movementSpeed = 0.1f;
 
-    // method: Camera constructor
-    // purpose: Sets up camera position and orientation.
     public Camera(float x, float y, float z) {
         this.x = x;
         this.y = y;
@@ -35,27 +32,24 @@ public class Camera {
         this.pitch = 0;
     }
     
-    // method: update
-    // purpose: Updates orientation based on mouse input and position.
     public void update() {
-        // update orientation from mouse movement
+        // Update orientation based on mouse movement
         yaw += Mouse.getDX() * mouseSensitivity;
         pitch -= Mouse.getDY() * mouseSensitivity;
-        if (pitch > 90)  pitch = 90;
-        if (pitch < -90) pitch = -90;
-
-        // update position based on keyboard input
-        // use the current yaw for horizontal movement
+        if (pitch > 90)
+            pitch = 90;
+        if (pitch < -90)
+            pitch = -90;
+            
+        // Update position using keyboard input (delegated to PlayerMovement)
         Vector3f delta = PlayerMovement.getMovementDelta(movementSpeed, yaw);
         x += delta.x;
         y += delta.y;
         z += delta.z;
     }
     
-    // method: applyView
-    // purpose: Applies camera transformation to current OpenGL modelview matrix.
     public void applyView() {
-        // apply rotations first, then inverse translation
+        // Apply rotations then translate inversely
         org.lwjgl.opengl.GL11.glRotatef(pitch, 1, 0, 0);
         org.lwjgl.opengl.GL11.glRotatef(yaw, 0, 1, 0);
         org.lwjgl.opengl.GL11.glTranslatef(-x, -y, -z);

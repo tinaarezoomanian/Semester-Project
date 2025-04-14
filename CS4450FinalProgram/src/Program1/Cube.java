@@ -15,52 +15,54 @@ package Program1;
 import org.lwjgl.opengl.GL11;
 
 public class Cube {
-    // method: drawCube
-    // purpose: Draws a cube with each face having a unique color.
-    public static void drawCube() {
+    // Holds the current texture ID to use for drawing the cube.
+    public static int currentTextureID;
+
+    // Draws a textured cube with coordinates for each face.
+    public static void drawTexturedCube() {
+        if(currentTextureID != -1) {
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, currentTextureID);
+        }
+        
         GL11.glBegin(GL11.GL_QUADS);
         
-        // front face (blue)
-        GL11.glColor3f(0, 0, 1);
-        GL11.glVertex3f(-1, -1, -1);
-        GL11.glVertex3f(1, -1, -1);
-        GL11.glVertex3f(1, 1, -1);
-        GL11.glVertex3f(-1, 1, -1);
+        // Enable texture coordinates (you can adjust these as needed)
 
-        // back face (magenta)
-        GL11.glColor3f(1, 0, 1);
-        GL11.glVertex3f(-1, -1, 1);
-        GL11.glVertex3f(1, -1, 1);
-        GL11.glVertex3f(1, 1, 1);
-        GL11.glVertex3f(-1, 1, 1);
-
-        // left face (yellow)
-        GL11.glColor3f(1, 1, 0);
-        GL11.glVertex3f(-1, -1, -1);
-        GL11.glVertex3f(-1, 1, -1);
-        GL11.glVertex3f(-1, 1, 1);
-        GL11.glVertex3f(-1, -1, 1);
-
-        // right face (cyan)
-        GL11.glColor3f(0, 1, 1);
-        GL11.glVertex3f(1, -1, -1);
-        GL11.glVertex3f(1, 1, -1);
-        GL11.glVertex3f(1, 1, 1);
-        GL11.glVertex3f(1, -1, 1);
-
-        // top face (red)
-        GL11.glColor3f(1, 0, 0);
-        GL11.glVertex3f(-1, 1, -1);
-        GL11.glVertex3f(1, 1, -1);
-        GL11.glVertex3f(1, 1, 1);
-        GL11.glVertex3f(-1, 1, 1);
-
-        // bottom face (green)
-        GL11.glColor3f(0, 1, 0);
-        GL11.glVertex3f(-1, -1, -1);
-        GL11.glVertex3f(1, -1, -1);
-        GL11.glVertex3f(1, -1, 1);
-        GL11.glVertex3f(-1, -1, 1);
+        // Front face
+        GL11.glTexCoord2f(0, 0); GL11.glVertex3f(-1, -1, -1);
+        GL11.glTexCoord2f(1, 0); GL11.glVertex3f( 1, -1, -1);
+        GL11.glTexCoord2f(1, 1); GL11.glVertex3f( 1,  1, -1);
+        GL11.glTexCoord2f(0, 1); GL11.glVertex3f(-1,  1, -1);
+        
+        // Back face
+        GL11.glTexCoord2f(0, 0); GL11.glVertex3f(-1, -1, 1);
+        GL11.glTexCoord2f(1, 0); GL11.glVertex3f( 1, -1, 1);
+        GL11.glTexCoord2f(1, 1); GL11.glVertex3f( 1,  1, 1);
+        GL11.glTexCoord2f(0, 1); GL11.glVertex3f(-1,  1, 1);
+        
+        // Left face
+        GL11.glTexCoord2f(0, 0); GL11.glVertex3f(-1, -1, -1);
+        GL11.glTexCoord2f(1, 0); GL11.glVertex3f(-1,  1, -1);
+        GL11.glTexCoord2f(1, 1); GL11.glVertex3f(-1,  1,  1);
+        GL11.glTexCoord2f(0, 1); GL11.glVertex3f(-1, -1,  1);
+        
+        // Right face
+        GL11.glTexCoord2f(0, 0); GL11.glVertex3f(1, -1, -1);
+        GL11.glTexCoord2f(1, 0); GL11.glVertex3f(1,  1, -1);
+        GL11.glTexCoord2f(1, 1); GL11.glVertex3f(1,  1,  1);
+        GL11.glTexCoord2f(0, 1); GL11.glVertex3f(1, -1,  1);
+        
+        // Top face
+        GL11.glTexCoord2f(0, 0); GL11.glVertex3f(-1, 1, -1);
+        GL11.glTexCoord2f(1, 0); GL11.glVertex3f( 1, 1, -1);
+        GL11.glTexCoord2f(1, 1); GL11.glVertex3f( 1, 1,  1);
+        GL11.glTexCoord2f(0, 1); GL11.glVertex3f(-1, 1,  1);
+        
+        // Bottom face
+        GL11.glTexCoord2f(0, 0); GL11.glVertex3f(-1, -1, -1);
+        GL11.glTexCoord2f(1, 0); GL11.glVertex3f( 1, -1, -1);
+        GL11.glTexCoord2f(1, 1); GL11.glVertex3f( 1, -1,  1);
+        GL11.glTexCoord2f(0, 1); GL11.glVertex3f(-1, -1,  1);
         
         GL11.glEnd();
     }
