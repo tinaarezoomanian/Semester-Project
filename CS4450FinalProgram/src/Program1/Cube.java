@@ -27,38 +27,45 @@ public class Cube {
         GL11.glBegin(GL11.GL_QUADS);
         
         // Enable texture coordinates (you can adjust these as needed)
-
+        
+        // added normals for each cube face to calculate how light interfacts with each face
         // Front face
+        GL11.glNormal3f(0, 0, -1);
         GL11.glTexCoord2f(0, 0); GL11.glVertex3f(-1, -1, -1);
         GL11.glTexCoord2f(1, 0); GL11.glVertex3f( 1, -1, -1);
         GL11.glTexCoord2f(1, 1); GL11.glVertex3f( 1,  1, -1);
         GL11.glTexCoord2f(0, 1); GL11.glVertex3f(-1,  1, -1);
         
         // Back face
+        GL11.glNormal3f(0, 0, 1);
         GL11.glTexCoord2f(0, 0); GL11.glVertex3f(-1, -1, 1);
         GL11.glTexCoord2f(1, 0); GL11.glVertex3f( 1, -1, 1);
         GL11.glTexCoord2f(1, 1); GL11.glVertex3f( 1,  1, 1);
         GL11.glTexCoord2f(0, 1); GL11.glVertex3f(-1,  1, 1);
         
         // Left face
+        GL11.glNormal3f(-1, 0, 0);
         GL11.glTexCoord2f(0, 0); GL11.glVertex3f(-1, -1, -1);
         GL11.glTexCoord2f(1, 0); GL11.glVertex3f(-1,  1, -1);
         GL11.glTexCoord2f(1, 1); GL11.glVertex3f(-1,  1,  1);
         GL11.glTexCoord2f(0, 1); GL11.glVertex3f(-1, -1,  1);
         
         // Right face
+        GL11.glNormal3f(1, 0, 0);
         GL11.glTexCoord2f(0, 0); GL11.glVertex3f(1, -1, -1);
         GL11.glTexCoord2f(1, 0); GL11.glVertex3f(1,  1, -1);
         GL11.glTexCoord2f(1, 1); GL11.glVertex3f(1,  1,  1);
         GL11.glTexCoord2f(0, 1); GL11.glVertex3f(1, -1,  1);
         
         // Top face
+        GL11.glNormal3f(0, 1, 0);
         GL11.glTexCoord2f(0, 0); GL11.glVertex3f(-1, 1, -1);
         GL11.glTexCoord2f(1, 0); GL11.glVertex3f( 1, 1, -1);
         GL11.glTexCoord2f(1, 1); GL11.glVertex3f( 1, 1,  1);
         GL11.glTexCoord2f(0, 1); GL11.glVertex3f(-1, 1,  1);
         
         // Bottom face
+        GL11.glNormal3f(0, -1, 0);
         GL11.glTexCoord2f(0, 0); GL11.glVertex3f(-1, -1, -1);
         GL11.glTexCoord2f(1, 0); GL11.glVertex3f( 1, -1, -1);
         GL11.glTexCoord2f(1, 1); GL11.glVertex3f( 1, -1,  1);

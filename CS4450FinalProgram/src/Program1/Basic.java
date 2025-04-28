@@ -22,7 +22,7 @@ public class Basic {
     private static final int WINDOW_WIDTH = 640;
     private static final int WINDOW_HEIGHT = 480;
     private static final int FRAME_RATE = 60;
-    private static final String WINDOW_TITLE = "Final Program Checkpoint 2";
+    private static final String WINDOW_TITLE = "Final Program Checkpoint 3";
     
     // Camera instance
     private Camera camera;
@@ -65,6 +65,9 @@ public class Basic {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D); // This is crucial for drawing textures
         
+        // initialize lighting
+        Lighting.initLighting();
+        
         // Set the clear color to black.
         GL11.glClearColor(0f, 0f, 0f, 1f);
 
@@ -90,6 +93,9 @@ public class Basic {
             
             // Apply the camera view transformation.
             camera.applyView();
+            
+            // update light position after camera transformation
+            Lighting.updateLight();
             
             // Draw the terrain (textured cubes generated via noise).
             terrain.drawTerrain();
