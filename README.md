@@ -5,7 +5,7 @@
 
 This is a 3D OpenGL-based MineCraft-like world written in Java using **LWJGL**.
 
-![Program Screenshot](https://github.com/tinaarezoomanian/Semester-Project/tree/main/CS4450FinalProgram/screenshots/screenshot1.png)
+![Program Screenshot](https://github.com/tinaarezoomanian/Semester-Project/blob/main/screenshots/screenshot1.png)
 
 ---
 
