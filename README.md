@@ -21,7 +21,7 @@ This is a 3D OpenGL-based MineCraft-like world written in Java using **LWJGL**.
 | `LEFT SHIFT`       | Fly down                                    |
 | `M`                | Switch to **Day** skybox                    |
 | `N`                | Switch to **Night** skybox                  |
-| `F1`               | Switch to **HELL MODE** skybox              |
+| `H`                | Switch to **HELL MODE** skybox              |
 | `ESC`              | Exit program                                |
 | `Mouse Movement`   | Look around (first-person view)             |
 
