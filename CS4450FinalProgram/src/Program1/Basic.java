@@ -47,7 +47,7 @@ public class Basic {
     private List<Chicken> vocalChickens = new ArrayList<>();
     
     // key debouncing
-    private boolean f1Pressed = false;
+    private boolean HPressed = false;
     
     // audio
     private Audio chickenSound;
@@ -186,14 +186,14 @@ public class Basic {
         }
         
         // toggles hell mode on F1
-        if (Keyboard.isKeyDown(Keyboard.KEY_F1) && !f1Pressed) {
+        if (Keyboard.isKeyDown(Keyboard.KEY_H) && !HPressed) {
             isHellMode = !isHellMode;
-            f1Pressed = true;
+            HPressed = true;
             if (isHellMode && hellModeSound != null) {
                 hellModeSound.playAsSoundEffect(1.0f, 0.3f, false);
             }
-        } else if (!Keyboard.isKeyDown(Keyboard.KEY_F1)) {
-            f1Pressed = false;
+        } else if (!Keyboard.isKeyDown(Keyboard.KEY_H)) {
+            HPressed = false;
         }
     }
 
