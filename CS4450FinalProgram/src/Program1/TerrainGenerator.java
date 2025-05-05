@@ -20,6 +20,7 @@ public class TerrainGenerator {
     private int dirtTexture    = MyTextureLoader.loadTexture("/textures/dirt.png");
     private int stoneTexture   = MyTextureLoader.loadTexture("/textures/stone.png");
     private int bedrockTexture = MyTextureLoader.loadTexture("/textures/bedrock.png");
+    private int lavaTexture = MyTextureLoader.loadTexture("/textures/lava.png");
     
     // Constructor: precompute the top-layer texture choice for each column.
     public TerrainGenerator() {
@@ -37,7 +38,7 @@ public class TerrainGenerator {
         }
     }
     
-    public void drawTerrain() {
+    public void drawTerrain(boolean isHellMode) {
         for (int x = 0; x < WIDTH; x++) {
             for (int z = 0; z < DEPTH; z++) {
                 // Generate a noise-based height value for the current column.
@@ -50,15 +51,19 @@ public class TerrainGenerator {
                 for (int y = 0; y < columnHeight; y++) {
                     int textureToUse;
                     
-                    if (y == columnHeight - 1) {
-                        // Top layer: use the precomputed top texture for this column.
-                        textureToUse = topTextureChoice[x][z];
-                    } else if (y == 0) {
-                        // Bottom layer: always use bedrock.
-                        textureToUse = bedrockTexture;
+                    if (isHellMode) {
+                        textureToUse = lavaTexture;
                     } else {
-                        // Middle layers: use dirt for the lower half and stone for the upper half.
-                        textureToUse = (y < (columnHeight / 2)) ? dirtTexture : stoneTexture;
+                        if (y == columnHeight - 1) {
+                            // Top layer: use the precomputed top texture for this column.
+                            textureToUse = topTextureChoice[x][z];
+                        } else if (y == 0) {
+                            // Bottom layer: always use bedrock.
+                            textureToUse = bedrockTexture;
+                        } else {
+                            // Middle layers: use dirt for the lower half and stone for the upper half.
+                            textureToUse = (y < (columnHeight / 2)) ? dirtTexture : stoneTexture;
+                        }
                     }
                     
                     // Set the texture for the Cube drawing routine.

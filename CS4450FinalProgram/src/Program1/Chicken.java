@@ -12,26 +12,49 @@
 
 package Program1;
 
+import java.util.Random;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.openal.Audio;
 
 public class Chicken {
     public float x, y, z;
+    private Audio sound;
+    private Random random = new Random();
+    private float soundTime = 0;
+    private boolean isVocal = false;
     private float direction;
     private static final float SPEED = 0.05f;
     private static final float TURN_CHANCE = 0.02f;
+    private static final float SOUND_INTERVAL_MIN = 15.0f;
+    private static final float SOUND_INTERVAL_MAX = 25.0f;
+    private static final float SOUND_GAIN = 0.1f;
 
     private static final int frontTex = MyTextureLoader.loadTexture("/textures/chickenfront.png");
     private static final int sideTex = MyTextureLoader.loadTexture("/textures/chickenside.png");
     private static final int bottomTex = MyTextureLoader.loadTexture("/textures/chickenbottom.png");
 
-    public Chicken(float startX, float startZ) {
+    public Chicken(float startX, float startZ, Audio sound) {
         this.x = startX;
         this.z = startZ;
         updateHeight();
         this.direction = (float)(Math.random() * 2 * Math.PI);
+        this.sound = sound;
     }
 
     public void update() {
+        soundTime += 1.0f / Basic.FRAME_RATE;
+        
+        // play sound random intervals
+        if (sound != null && soundTime >= SOUND_INTERVAL_MIN) {
+            if (random.nextFloat() < 0.1f) {
+                // play sound from chicken's position
+                sound.playAsSoundEffect(1.0f, SOUND_GAIN, false, x, y, z);
+                
+                // reset timer to random interval
+                soundTime = random.nextFloat() * (SOUND_INTERVAL_MAX - SOUND_INTERVAL_MIN);
+            }
+        }
+        
         if (Math.random() < TURN_CHANCE) {
             direction += (Math.random() - 0.5f) * Math.PI / 4;
         }
@@ -107,5 +130,9 @@ public class Chicken {
         int gridZ = Math.round(newZ / 2f);
         return (gridX >= 0 && gridX < TerrainGenerator.WIDTH &&
                 gridZ >= 0 && gridZ < TerrainGenerator.DEPTH);
+    }
+    
+    public void setVocal(boolean vocal) {
+        this.isVocal = vocal;
     }
 }

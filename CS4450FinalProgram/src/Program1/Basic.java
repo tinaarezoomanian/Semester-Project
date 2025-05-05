@@ -11,6 +11,7 @@
 ****************************************************************/
 package Program1;
 
+import java.io.IOException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -18,28 +19,52 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.AL10;
+import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.AudioLoader;
+import org.newdawn.slick.openal.SoundStore;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class Basic {
 
     // Window constants
     private static final int WINDOW_WIDTH = 640;
     private static final int WINDOW_HEIGHT = 480;
-    private static final int FRAME_RATE = 60;
-    private static final String WINDOW_TITLE = "Final Program Checkpoint 3";
+    static final int FRAME_RATE = 60;
+    private static final String WINDOW_TITLE = "Final Program";
     
     // Camera instance
     private Camera camera;
     private boolean isDay = true;
+    private boolean isHellMode = false;
 
     // Chicken list
     private List<Chicken> chickens = new ArrayList<>();
+    private List<Chicken> vocalChickens = new ArrayList<>();
+    
+    // key debouncing
+    private boolean f1Pressed = false;
+    
+    // audio
+    private Audio chickenSound;
+    private Audio hellModeSound;
+    private static final String CHICKEN_SOUND_PATH = "textures/chicken_cluck.wav";
+    private static final String HELL_MODE_SOUND_PATH = "textures/hell_mode.wav";
+    private float vocalSelectTimer = 0;
+    private static final float VOCAL_SELECTION_INTERVAL = 10.0f;
+    private static final int MAX_VOCAL_CHICKENS = 3;
+    private Random random = new Random();
 
     // Start the program: create the window, initialize OpenGL, and run the render loop.
     public void start() {
         try {
             createWindow();
             initGL();
+            initAudio();
             camera = new Camera(30.0f, 30.0f, 100.0f);
             Skybox.initSkybox(); // Initialize sky box
 
@@ -47,13 +72,18 @@ public class Basic {
             for (int i = 0; i < 10; i++) {
                 float x = (float)(Math.random() * TerrainGenerator.WIDTH) * 2;
                 float z = (float)(Math.random() * TerrainGenerator.DEPTH) * 2;
-                chickens.add(new Chicken(x, z));
+                chickens.add(new Chicken(x, z, chickenSound));
             }
+            
+            // init vocal chickens
+            selectVocalChickens();
 
             render();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
+        } finally {
+            cleanup();
         }
     }
 
@@ -94,12 +124,76 @@ public class Basic {
         GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
     }
     
+    // initializes audio resources
+    private void initAudio() {
+        try {
+            SoundStore.get().init();
+            // load chicken cluck wav
+            chickenSound = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream(CHICKEN_SOUND_PATH));
+            if (chickenSound != null) {
+                chickenSound.playAsSoundEffect(1.0f, 0.1f, false);
+            }
+            
+            // load hell mode wav
+            hellModeSound = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream(HELL_MODE_SOUND_PATH));
+        } catch (IOException e) {
+            System.err.println("Failed t load chicken sound: " + e.getMessage());
+            e.printStackTrace();
+            chickenSound = null;
+            hellModeSound = null;
+        }
+    }
+    
+    // clean up the audio resources
+    private void cleanup() {
+        if (chickenSound != null) {
+            chickenSound.stop();
+            chickenSound = null;
+        }
+        if (hellModeSound != null) {
+            hellModeSound.stop();
+            hellModeSound = null;
+        }
+        AL.destroy();
+    }
+    
+    // select random chickens to be vocal (currently set for 3-4)
+    private void selectVocalChickens() {
+        vocalChickens.clear();
+        List<Chicken> tmpList = new ArrayList<>(chickens);
+        Collections.shuffle(tmpList, random);
+        
+        int numVocal = Math.min(MAX_VOCAL_CHICKENS, tmpList.size());
+        numVocal = random.nextInt(2) + 3;   // randomly 3 or 4
+        
+        for (int i = 0; i < numVocal; i++) {
+            vocalChickens.add(tmpList.get(i));
+            tmpList.get(i).setVocal(true);
+        }
+        
+        // non vocal chickens
+        for (Chicken chicken : tmpList.subList(numVocal, tmpList.size())) {
+            chicken.setVocal(false);
+        }
+    }
+    
     // This handles user input from the keyboard.
     private void handleInput() {
         if (Keyboard.isKeyDown(Keyboard.KEY_N)) {
             isDay = false;
         } else if (Keyboard.isKeyDown(Keyboard.KEY_M)) {
             isDay = true;
+        }
+        
+        // toggles hell mode on F1
+        if (Keyboard.isKeyDown(Keyboard.KEY_F1) && !f1Pressed) {
+            isHellMode = !isHellMode;
+            f1Pressed = true;
+            if (isHellMode && hellModeSound != null) {
+                hellModeSound.playAsSoundEffect(1.0f, 0.3f, false);
+            }
+        } else if (!Keyboard.isKeyDown(Keyboard.KEY_F1)) {
+            f1Pressed = false;
         }
     }
 
@@ -115,6 +209,19 @@ public class Basic {
             // Update the camera based on user input.
             camera.update();
             
+            // update openAL listener position to match camera
+            if (chickenSound != null) {
+                AL10.alListener3f(AL10.AL_POSITION, camera.x, camera.y, camera.z);
+                AL10.alListener3f(AL10.AL_VELOCITY, 0, 0, 0);
+            }
+            
+            // update vocal selection timer
+            vocalSelectTimer += 1.0f / FRAME_RATE;
+            if (vocalSelectTimer >= VOCAL_SELECTION_INTERVAL) {
+                selectVocalChickens();
+                vocalSelectTimer = 0;
+            }
+            
             // Clear the screen and reset the modelview matrix.
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
             GL11.glLoadIdentity();
@@ -124,19 +231,21 @@ public class Basic {
            
             // Draw the skybox
             Skybox.setDay(isDay);
-            Skybox.render(camera.x, camera.y, camera.z);
+            Skybox.render(camera.x, camera.y, camera.z, isHellMode);
             
             // update light position after camera transformation
             Lighting.updateLight();
             
             // Draw the terrain (textured cubes generated via noise).
-            terrain.drawTerrain();
+            terrain.drawTerrain(isHellMode);
 
             // Update and draw all chickens
             for (Chicken chicken : chickens) {
                 chicken.update();
                 chicken.draw();
             }
+            
+            SoundStore.get().poll(0);
             
             Display.update();
             Display.sync(FRAME_RATE);

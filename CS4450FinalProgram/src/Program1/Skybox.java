@@ -16,15 +16,18 @@ import org.lwjgl.opengl.GL11;
 public class Skybox {
     private static int[] dayTextures = new int[6];
     private static int[] nightTextures = new int[6];
+    private static int[] hellTextures = new int[6];
     private static boolean isDay = true;
 
     public static void initSkybox() {
         int dayTex = MyTextureLoader.loadTexture("/textures/daysky.png");
         int nightTex = MyTextureLoader.loadTexture("/textures/nightsky.png");
+        int hellTex = MyTextureLoader.loadTexture("/textures/hellsky.png");
 
         for (int i = 0; i < 6; i++) {
             dayTextures[i] = dayTex;
             nightTextures[i] = nightTex;
+            hellTextures[i] = hellTex;
         }
     }
 
@@ -32,8 +35,8 @@ public class Skybox {
         isDay = day;
     }
 
-    public static void render(float x, float y, float z) {
-        int[] tex = isDay ? dayTextures : nightTextures;
+    public static void render(float x, float y, float z, boolean isHellMode) {
+        int[] tex = isHellMode ? hellTextures : (isDay ? dayTextures : nightTextures);
         float s = 500f;
 
         GL11.glDisable(GL11.GL_LIGHTING);
