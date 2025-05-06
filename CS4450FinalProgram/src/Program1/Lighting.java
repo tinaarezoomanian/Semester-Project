@@ -19,7 +19,8 @@ import java.nio.FloatBuffer;
 import org.lwjgl.opengl.GL11;
 
 public class Lighting {
-    // init and configure light source
+    // method - initLighting  
+    // purpose - sets up light source and material for the scene  
     public static void initLighting() {
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_LIGHT0);
@@ -49,7 +50,8 @@ public class Lighting {
         GL11.glEnable(GL11.GL_NORMALIZE);
     }
 
-    // convert float array to FloatBuffer
+    // method - createFloatBuffer  
+    // purpose - converts a float array to a FloatBuffer for opengl 
     private static FloatBuffer createFloatBuffer(float[] values) {
         FloatBuffer buffer = ByteBuffer
             .allocateDirect(values.length * 4)
@@ -59,7 +61,8 @@ public class Lighting {
         return buffer;
     }
 
-    // update light position each frame
+    // method - updateLight  
+    // purpose - reapplies light position each frame  
     public static void updateLight() {
         // reapply light position after camera transformation
         float[] lightPosition = {1.0f, 0.0f, 0.0f, 0.0f};

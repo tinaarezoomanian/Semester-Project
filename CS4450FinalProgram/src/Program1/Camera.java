@@ -24,6 +24,8 @@ public class Camera {
     public float mouseSensitivity = 0.1f;
     public float movementSpeed = 0.1f;
 
+    // method - Camera  
+    // purpose - sets the starting position and orientation of the camera
     public Camera(float x, float y, float z) {
         this.x = x;
         this.y = y;
@@ -32,6 +34,8 @@ public class Camera {
         this.pitch = 0;
     }
     
+    // method - update  
+    // purpose - updates camera position and rotation based on input
     public void update() {
         // Update orientation based on mouse movement
         yaw += Mouse.getDX() * mouseSensitivity;
@@ -48,6 +52,8 @@ public class Camera {
         z += delta.z;
     }
     
+    // method - applyView  
+    // purpose - sets camera view transformation in opengl
     public void applyView() {
         // Apply rotations then translate inversely
         org.lwjgl.opengl.GL11.glRotatef(pitch, 1, 0, 0);

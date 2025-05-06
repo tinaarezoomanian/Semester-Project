@@ -9,8 +9,8 @@ import org.lwjgl.opengl.GL11;
 
 public class MyTextureLoader {
     
-    // Loads a texture from the given resource path (e.g., "/textures/grass.png")
-    // and returns the OpenGL texture ID.
+    // method - loadTexture  
+    // purpose - loads image from path and returns opengl texture id  
     public static int loadTexture(String path) {
         try {
             // Read the image file from the resource path

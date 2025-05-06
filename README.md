@@ -6,7 +6,7 @@
 This is a 3D OpenGL-based MineCraft-like world written in Java using **LWJGL**.
 
 ![Program Screenshot](https://github.com/tinaarezoomanian/Semester-Project/blob/main/screenshots/screenshot1.png)
-
+![Program Screenshot](https://github.com/tinaarezoomanian/Semester-Project/blob/main/screenshots/screenshot3.png)
 ---
 
 ## 🎮 Controls
@@ -27,10 +27,20 @@ This is a 3D OpenGL-based MineCraft-like world written in Java using **LWJGL**.
 
 ---
 
-## 🐔 Chickens
+## 🌤️ Day/Night Modes
 
-- Chickens spawn randomly on top of the terrain.
-- They like to randomly walk across terrain but never fall off the edge.
+- The scene switches between day and night by toggling a boolean flag (isDay), which changes the skybox textures and lighting to simulate time of day. 
+- Users can control this by pressing the N key for night and M key for day.
+
+## ⭕ Hell Mode
+
+- Hell mode transforms the environment into a darker, more intense version by changing terrain textures to lava and altering the skybox. 
+- It can be toggled using the H key and plays a distinct sound effect when activated.
+
+## 🐔 Chickens with Audio
+
+- Chickens spawn randomly on top of the terrain. They like to randomly walk across terrain but never fall off the edge.
+- Audio is used to enhance immersion with ambient chicken clucks and a sound cue for entering hell mode. Chickens randomly emit sounds from their 3D positions.
 
 ---
 

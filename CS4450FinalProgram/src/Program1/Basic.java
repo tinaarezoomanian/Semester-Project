@@ -59,7 +59,8 @@ public class Basic {
     private static final int MAX_VOCAL_CHICKENS = 3;
     private Random random = new Random();
 
-    // Start the program: create the window, initialize OpenGL, and run the render loop.
+    // method - start  
+    // purpose - setup window, initialize everything, and run render loop 
     public void start() {
         try {
             createWindow();
@@ -87,7 +88,8 @@ public class Basic {
         }
     }
 
-    // Creates an OpenGL window.
+    // method - createWindow  
+    // purpose - sets up and opens the display window
     private void createWindow() throws Exception {
         Display.setFullscreen(false);
         Display.setDisplayMode(new DisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -105,7 +107,8 @@ public class Basic {
         org.lwjgl.input.Mouse.setGrabbed(true);
     }
 
-    // Initializes OpenGL settings.
+    // method - initGL  
+    // purpose - initialize opengl settings and perspective view
     private void initGL() {
         // Enable depth testing and textures.
         GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -124,7 +127,8 @@ public class Basic {
         GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
     }
     
-    // initializes audio resources
+    // method - initAudio  
+    // purpose - load and setup audio resources 
     private void initAudio() {
         try {
             SoundStore.get().init();
@@ -144,7 +148,8 @@ public class Basic {
         }
     }
     
-    // clean up the audio resources
+    // method - cleanup  
+    // purpose - stop and clear audio before exiting
     private void cleanup() {
         if (chickenSound != null) {
             chickenSound.stop();
@@ -157,7 +162,8 @@ public class Basic {
         AL.destroy();
     }
     
-    // select random chickens to be vocal (currently set for 3-4)
+    // method - selectVocalChickens  
+    // purpose - randomly pick some chickens to be vocal
     private void selectVocalChickens() {
         vocalChickens.clear();
         List<Chicken> tmpList = new ArrayList<>(chickens);
@@ -177,7 +183,8 @@ public class Basic {
         }
     }
     
-    // This handles user input from the keyboard.
+    // method - handleInput  
+    // purpose - check and respond to keyboard input
     private void handleInput() {
         if (Keyboard.isKeyDown(Keyboard.KEY_N)) {
             isDay = false;
@@ -197,7 +204,8 @@ public class Basic {
         }
     }
 
-    // The render loop. It now uses your TerrainGenerator to draw the full textured terrain.
+    // method - render  
+    // purpose - main game loop that draws the scene and updates state
     private void render() {
         // Create an instance of your terrain generator.
         TerrainGenerator terrain = new TerrainGenerator();
@@ -253,7 +261,8 @@ public class Basic {
         Display.destroy();
     }
 
-    // Main method.
+    // method - main  
+    // purpose - starts the program
     public static void main(String[] args) {
         Basic basic = new Basic();
         basic.start();

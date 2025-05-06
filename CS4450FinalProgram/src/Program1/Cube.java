@@ -15,10 +15,12 @@ package Program1;
 import org.lwjgl.opengl.GL11;
 
 public class Cube {
+    // public instance
     // Holds the current texture ID to use for drawing the cube.
     public static int currentTextureID;
 
-    // Draws a textured cube with coordinates for each face.
+    // method - drawTexturedCube  
+    // purpose - renders a cube with textured faces and normals  
     public static void drawTexturedCube() {
         if(currentTextureID != -1) {
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, currentTextureID);

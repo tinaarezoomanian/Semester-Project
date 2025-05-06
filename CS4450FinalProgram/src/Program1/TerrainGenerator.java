@@ -22,8 +22,10 @@ public class TerrainGenerator {
     private int bedrockTexture = MyTextureLoader.loadTexture("/textures/bedrock.png");
     private int lavaTexture = MyTextureLoader.loadTexture("/textures/lava.png");
     
-    // Constructor: precompute the top-layer texture choice for each column.
+    // method - TerrainGenerator  
+    // purpose - sets random top textures for each column in terrain
     public TerrainGenerator() {
+            // Constructor: precompute the top-layer texture choice for each column.
         for (int x = 0; x < WIDTH; x++) {
             for (int z = 0; z < DEPTH; z++) {
                 float r = (float) Math.random();
@@ -38,6 +40,8 @@ public class TerrainGenerator {
         }
     }
     
+    // method - drawTerrain  
+    // purpose - draws terrain cubes based on noise height and selected textures
     public void drawTerrain(boolean isHellMode) {
         for (int x = 0; x < WIDTH; x++) {
             for (int z = 0; z < DEPTH; z++) {

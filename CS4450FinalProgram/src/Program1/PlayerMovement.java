@@ -17,7 +17,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class PlayerMovement {
 
-    // Calculate movement delta based on keyboard input.
+    // method - getMovementDelta  
+    // purpose - calculates player movement based on keyboard input and camera yaw  
     public static Vector3f getMovementDelta(float movementSpeed, float cameraYaw) {
         // Convert yaw angle to radians.
         float yawRad = (float) Math.toRadians(cameraYaw);

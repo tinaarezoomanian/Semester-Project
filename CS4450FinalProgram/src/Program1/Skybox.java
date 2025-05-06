@@ -18,7 +18,9 @@ public class Skybox {
     private static int[] nightTextures = new int[6];
     private static int[] hellTextures = new int[6];
     private static boolean isDay = true;
-
+    
+    // method - initSkybox  
+    // purpose - loads sky textures for day, night, and hell modes
     public static void initSkybox() {
         int dayTex = MyTextureLoader.loadTexture("/textures/daysky.png");
         int nightTex = MyTextureLoader.loadTexture("/textures/nightsky.png");
@@ -30,11 +32,15 @@ public class Skybox {
             hellTextures[i] = hellTex;
         }
     }
-
+    
+    // method - setDay  
+    // purpose - sets current time to day or night  
     public static void setDay(boolean day) {
         isDay = day;
     }
-
+        
+    // method - render  
+    // purpose - draws skybox based on time of day and hell mode  
     public static void render(float x, float y, float z, boolean isHellMode) {
         int[] tex = isHellMode ? hellTextures : (isDay ? dayTextures : nightTextures);
         float s = 500f;
@@ -55,7 +61,9 @@ public class Skybox {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_LIGHTING);
     }
-
+    
+    // method - drawFace  
+    // purpose - helper method to draw one textured quad for skybox  
     private static void drawFace(int textureID,
                                  float x0, float y0, float z0,
                                  float x1, float y1, float z1,

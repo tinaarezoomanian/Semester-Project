@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.openal.Audio;
 
 public class Chicken {
+    // public and private instances
     public float x, y, z;
     private Audio sound;
     private Random random = new Random();
@@ -33,6 +34,8 @@ public class Chicken {
     private static final int sideTex = MyTextureLoader.loadTexture("/textures/chickenside.png");
     private static final int bottomTex = MyTextureLoader.loadTexture("/textures/chickenbottom.png");
 
+    // method - Chicken  
+    // purpose - creates a chicken with position and direction
     public Chicken(float startX, float startZ, Audio sound) {
         this.x = startX;
         this.z = startZ;
@@ -40,7 +43,9 @@ public class Chicken {
         this.direction = (float)(Math.random() * 2 * Math.PI);
         this.sound = sound;
     }
-
+    
+    // method - update  
+    // purpose - moves chicken and plays sound randomly 
     public void update() {
         soundTime += 1.0f / Basic.FRAME_RATE;
         
@@ -70,7 +75,9 @@ public class Chicken {
             direction += Math.PI;
         }
     }
-
+    
+    // method - draw  
+    // purpose - renders the chicken model with textures
     public void draw() {
         GL11.glPushMatrix();
         GL11.glTranslatef(x, y, z);
@@ -103,6 +110,8 @@ public class Chicken {
         GL11.glPopMatrix();
     }
 
+    // method - drawQuad  
+    // purpose - helper method to draw one textured quad  
     private void drawQuad(float x0, float y0, float z0,
                           float x1, float y1, float z1,
                           float x2, float y2, float z2,
@@ -114,7 +123,9 @@ public class Chicken {
         GL11.glTexCoord2f(0, 1); GL11.glVertex3f(x3, y3, z3);
         GL11.glEnd();
     }
-
+    
+    // method - updateHeight  
+    // purpose - adjusts chicken height based on terrain noise  
     private void updateHeight() {
         int gridX = Math.round(x / 2f);
         int gridZ = Math.round(z / 2f);
@@ -125,13 +136,17 @@ public class Chicken {
         y = height * 2f + 1f;
     }
 
+    // method - isValidGround  
+    // purpose - checks if position is on valid terrain  
     private boolean isValidGround(float newX, float newZ) {
         int gridX = Math.round(newX / 2f);
         int gridZ = Math.round(newZ / 2f);
         return (gridX >= 0 && gridX < TerrainGenerator.WIDTH &&
                 gridZ >= 0 && gridZ < TerrainGenerator.DEPTH);
     }
-    
+       
+    // method - setVocal  
+    // purpose - sets whether the chicken is vocal or not
     public void setVocal(boolean vocal) {
         this.isVocal = vocal;
     }
