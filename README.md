@@ -47,6 +47,8 @@ This is a 3D OpenGL-based MineCraft-like world written in Java using **LWJGL**.
 ## 🛠 How to Run
 
 1. Make sure you have **JDK 17+** and **LWJGL 2.9.2**
-2. Place all required `.png` textures in the `textures/` folder
-3. Compile and run `Basic.java`
-4. Ensure working directory is set to project root
+2. Project Properties >> Run >> configure VM Options and Working Directory
+3. Reimport Libraries
+4. Place all required `.png` textures in the `textures/` folder
+5. Compile and run `Basic.java`
+6. Ensure working directory is set to project root
